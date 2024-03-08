@@ -1,12 +1,10 @@
-package org.nixsolutions.days6;
+package org.nixsolutions.day6;
 
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
-import com.microsoft.playwright.assertions.PlaywrightAssertions;
-import com.microsoft.playwright.options.SelectOption;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 

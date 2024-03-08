@@ -1,4 +1,4 @@
-package org.nixsolutions.days6;
+package org.nixsolutions.day6;
 
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserType;
