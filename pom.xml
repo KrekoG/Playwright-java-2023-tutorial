@@ -30,8 +30,8 @@
     </dependency>
   </dependencies>
 
-<!--  PLAYWRIGHT_JAVA_SRC="src/main/java/" mvn test -Ptrace -->
   <profiles>
+    <!--  PLAYWRIGHT_JAVA_SRC="src/main/java/" mvn test -Ptrace -->
     <profile>
       <id>trace</id>
       <build>
@@ -48,6 +48,30 @@
                 </goals>
                 <configuration>
                   <mainClass>org.nixsolutions.day10.LearnTraceViewer</mainClass>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <!--  PWDEBUG=1 PLAYWRIGHT_JAVA_SRC="src/main/java/" mvn test -Pdebug -->
+    <profile>
+      <id>debug</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.0.0</version>
+            <executions>
+              <execution>
+                <phase>test</phase>
+                <goals>
+                  <goal>java</goal>
+                </goals>
+                <configuration>
+                  <mainClass>org.nixsolutions.day13.LearnDebug</mainClass>
                 </configuration>
               </execution>
             </executions>
