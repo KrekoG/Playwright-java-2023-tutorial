@@ -1,20 +1,16 @@
-package org.nixsolutions.page14;
+package org.nixsolutions.day15;
 
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType;
-import com.microsoft.playwright.Frame;
-import com.microsoft.playwright.FrameLocator;
+import com.microsoft.playwright.Download;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.Tracing;
-import com.microsoft.playwright.options.AriaRole;
 
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.regex.Pattern;
 
-public class LearnFrames {
+public class LearnDownload {
     public static void main(String[] args) {
         boolean runInHeadlessMode = false;
         Playwright playwright = Playwright.create();
@@ -31,29 +27,24 @@ public class LearnFrames {
         );
         Page page = context.newPage();
 
-        page.navigate("https://letcode.in/frame");
+        page.navigate("https://letcode.in/file");
         page.locator(".fc-button.fc-cta-do-not-consent.fc-secondary-button").click();
 
-        List<Frame> frames = page.frames();
-        System.out.println(frames.size());
-//        FrameLocator frameLocator = page.frameLocator("#firstFr");
-//        frameLocator.getByPlaceholder("Enter name").fill("Koushik");
-        Frame frame = page.frame("firstFr");
-        frame.getByPlaceholder("Enter name").fill("Koushik");
-        frame.getByPlaceholder("Enter email").fill("Chatterjee");
+        Download download = page.waitForDownload(() -> page.locator("'Download Excel'").click());
+        System.out.println(download.path());
+        System.out.println(download.url());
+        System.out.println(download.failure());
+        System.out.println(download.suggestedFilename());
+        download.saveAs(Paths.get("./target/downloads/" + download.suggestedFilename()));
 
-        List<Frame> childFrames = frame.childFrames();
-        System.out.println(childFrames.size());
-        childFrames.forEach(f -> System.out.println(f.url()));
+        // Assignment:
+        download = page.waitForDownload(() -> page.locator("'Download Pdf'").click());
+        download.saveAs(Paths.get("./target/downloads/" + download.suggestedFilename()));
 
-//        FrameLocator childFrame = frameLocator.frameLocator("iframe.has-background-white");
-        // Frame innerFrame = page.frameByUrl("https://letcode.in/innerFrame");
-        Frame innerFrame = page.frameByUrl(Pattern.compile("innerFrame"));
-        frame.getByPlaceholder("Enter email").fill("koushik@mail.com");
-
+        download = page.waitForDownload(() -> page.locator("'Download Text'").click());
+        download.saveAs(Paths.get("./target/downloads/" + download.suggestedFilename()));
         context.tracing().stop(new Tracing.StopOptions().setPath(Paths.get("./target/tracing/day14.zip")));
 
-        // It is required to close the context otherwise the video won't be saved
         context.close();
         playwright.close();
         // open trace file with
